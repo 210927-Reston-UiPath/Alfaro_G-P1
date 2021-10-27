@@ -6,7 +6,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1260,1240</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1258,1240</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>GetDataBaseInfo_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="35">
@@ -109,7 +109,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:DatabaseConnect>
-    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="This will test if I can extract the necessary tables I want, has clientName, vendor and client email, productName, quantity" CommandType="Text" DataTable="[pegaDT]" DisplayName="Execute Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="334,145" sap2010:WorkflowViewState.IdRef="ExecuteQuery_3" Sql="select client.clientName, client.clientEmail, shoppingList.vendorName, shoppingList.productName, shoppingList.quantity&#xD;&#xA;from client&#xD;&#xA;inner join shoppingList on client.clientID = shoppingList.clientID&#xD;&#xA;where shoppingList.vendorName = 'Pega';">
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="This will test if I can extract the necessary tables I want, has clientName, vendor and client email, productName, quantity" CommandType="Text" DataTable="[pegaDT]" DisplayName="Execute Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="334,145" sap2010:WorkflowViewState.IdRef="ExecuteQuery_3" Sql="select client.clientName, client.clientID, client.clientEmail, shoppingList.vendorName, shoppingList.productName, shoppingList.quantity, shoppingList.productType&#xD;&#xA;from client&#xD;&#xA;inner join shoppingList on client.clientID = shoppingList.clientID&#xD;&#xA;where shoppingList.vendorName = 'Pega';">
       <ui:ExecuteQuery.Parameters>
         <scg:Dictionary x:TypeArguments="x:String, Argument" />
       </ui:ExecuteQuery.Parameters>
@@ -136,7 +136,7 @@
         </ActivityAction>
       </ui:ForEachRow.Body>
     </ui:ForEachRow>
-    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="GEPA&#xD;&#xA;" CommandType="Text" DataTable="[gepaDT]" DisplayName="Execute Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="334,130" sap2010:WorkflowViewState.IdRef="ExecuteQuery_4" Sql="select client.clientName, client.clientEmail, shoppingList.vendorName, shoppingList.productName, shoppingList.quantity, client.clientID&#xD;&#xA;from client&#xD;&#xA;inner join shoppingList on client.clientID = shoppingList.clientID&#xD;&#xA;where shoppingList.vendorName = 'Gepa';">
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="GEPA&#xA;" CommandType="Text" DataTable="[gepaDT]" DisplayName="Execute Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="334,130" sap2010:WorkflowViewState.IdRef="ExecuteQuery_4" Sql="select client.clientName, client.clientEmail, shoppingList.vendorName, shoppingList.productName, shoppingList.quantity, client.clientID&#xD;&#xA;from client&#xD;&#xA;inner join shoppingList on client.clientID = shoppingList.clientID&#xD;&#xA;where shoppingList.vendorName = 'Gepa';">
       <ui:ExecuteQuery.Parameters>
         <scg:Dictionary x:TypeArguments="x:String, Argument" />
       </ui:ExecuteQuery.Parameters>

@@ -1,6 +1,6 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="AddClient" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="745,1814" sap2010:WorkflowViewState.IdRef="AddClient_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="AddClient" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="907,3568" sap2010:WorkflowViewState.IdRef="AddClient_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="46">
+    <scg:List x:TypeArguments="x:String" Capacity="29">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -25,10 +25,15 @@
       <x:String>System.Activities.DynamicUpdate</x:String>
       <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
       <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>UiPath.Database</x:String>
+      <x:String>UiPath.Database.Activities</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Xml.Serialization</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="16">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="18">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -45,15 +50,19 @@
       <AssemblyReference>System.Xaml</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities</AssemblyReference>
       <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Database</AssemblyReference>
+      <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Add a drop down and store the strings and add those to the shoppingList db, ADD a drop down menu with only items you can order&#xA;" DisplayName="AddClient" sap:VirtualizedContainerService.HintSize="755,1709" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Add a drop down and store the strings and add those to the shoppingList db, ADD a drop down menu with only items you can order&#xA;" DisplayName="AddClient" sap:VirtualizedContainerService.HintSize="917,3463" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Name="vendorName" />
       <Variable x:TypeArguments="x:String" Name="gepaItem" />
-      <Variable x:TypeArguments="x:String" Name="pegaItem" />
-      <Variable x:TypeArguments="x:String" Name="quantity" />
+      <Variable x:TypeArguments="x:Int32" Name="quantity" />
       <Variable x:TypeArguments="x:String" Name="clientName" />
+      <Variable x:TypeArguments="x:String" Name="clientEmail" />
+      <Variable x:TypeArguments="ui:DatabaseConnection" Name="postGreDB" />
+      <Variable x:TypeArguments="x:String" Name="vendor" />
+      <Variable x:TypeArguments="x:Int32" Name="gepaQuantity" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -61,54 +70,175 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="713,238" sap2010:WorkflowViewState.IdRef="InputDialog_5" IsPassword="False" Label="What is your name?" Title="Name">
-      <ui:InputDialog.Result>
-        <OutArgument x:TypeArguments="x:String">[clientName]</OutArgument>
-      </ui:InputDialog.Result>
-    </ui:InputDialog>
-    <ui:InputDialog Options="{x:Null}" sap2010:Annotation.AnnotationText="quantity, productName, vendorName&#xA;" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="713,333" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="Where would you like to buy from:" OptionsString="Pega;Gepa" Title="Select a vendor">
-      <ui:InputDialog.Result>
-        <OutArgument x:TypeArguments="x:String">[vendorName]</OutArgument>
-      </ui:InputDialog.Result>
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
-    </ui:InputDialog>
-    <If Condition="[vendorName = &quot;Pega&quot;]" sap:VirtualizedContainerService.HintSize="713,481" sap2010:WorkflowViewState.IdRef="If_1">
-      <If.Then>
-        <ui:InputDialog Options="{x:Null}" sap2010:Annotation.AnnotationText="for pega save variable for writing to shopping list&#xA;" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,333" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Label="What item would you want to buy?" OptionsString="Nachos;Grapes;Apples" Title="Select an item">
-          <ui:InputDialog.Result>
-            <OutArgument x:TypeArguments="x:String">[pegaItem]</OutArgument>
-          </ui:InputDialog.Result>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="875,408" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="376,330" sap2010:WorkflowViewState.IdRef="Sequence_6">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-        </ui:InputDialog>
-      </If.Then>
-      <If.Else>
-        <ui:InputDialog Options="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,291" sap2010:WorkflowViewState.IdRef="InputDialog_3" IsPassword="False" Label="What item would you want to buy?" OptionsString="MacnCheese;Bubblegum;Cereal;PotatoChips;Steak" Title="Select an item">
-          <ui:InputDialog.Result>
-            <OutArgument x:TypeArguments="x:String">[gepaItem]</OutArgument>
-          </ui:InputDialog.Result>
-        </ui:InputDialog>
-      </If.Else>
-    </If>
-    <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="713,238" sap2010:WorkflowViewState.IdRef="InputDialog_4" IsPassword="False" Label="How many of the Item do you want?" Title="Amount">
-      <ui:InputDialog.Result>
-        <OutArgument x:TypeArguments="x:String">[quantity]</OutArgument>
-      </ui:InputDialog.Result>
-    </ui:InputDialog>
-    <Sequence sap2010:Annotation.AnnotationText="here we will add shoppinglist?&#xD;&#xA;" sap:VirtualizedContainerService.HintSize="713,125" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,238" sap2010:WorkflowViewState.IdRef="InputDialog_5" IsPassword="False" Label="What is your name?" Title="Name">
+            <ui:InputDialog.Result>
+              <OutArgument x:TypeArguments="x:String">[clientName]</OutArgument>
+            </ui:InputDialog.Result>
+          </ui:InputDialog>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="875,408" sap2010:WorkflowViewState.IdRef="CommentOut_3">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="376,330" sap2010:WorkflowViewState.IdRef="Sequence_7">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,238" sap2010:WorkflowViewState.IdRef="InputDialog_7" IsPassword="False" Label="What is your email?" Title="Email Information">
+            <ui:InputDialog.Result>
+              <OutArgument x:TypeArguments="x:String">[clientEmail]</OutArgument>
+            </ui:InputDialog.Result>
+          </ui:InputDialog>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="875,503" sap2010:WorkflowViewState.IdRef="CommentOut_4">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="376,425" sap2010:WorkflowViewState.IdRef="Sequence_8">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:InputDialog Options="{x:Null}" sap2010:Annotation.AnnotationText="quantity, productName, vendorName&#xA;" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,333" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="Where would you like to buy from:" OptionsString="Pega;Gepa" Title="Select a vendor">
+            <ui:InputDialog.Result>
+              <OutArgument x:TypeArguments="x:String">[vendor]</OutArgument>
+            </ui:InputDialog.Result>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:InputDialog>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:DatabaseConnect sap2010:Annotation.AnnotationText="connection to database" DatabaseConnection="[postGreDB]" DisplayName="Connect" sap:VirtualizedContainerService.HintSize="875,90" sap2010:WorkflowViewState.IdRef="DatabaseConnect_1" ProviderName="System.Data.Odbc" ConnectionString="Dsn=PostgreSQL;uid=norywvpo;pwd=E4rTmsuaBfFcHCKZEOybBnv642GG_Ntr">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-    </Sequence>
+    </ui:DatabaseConnect>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="875,1473" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="839,1395" sap2010:WorkflowViewState.IdRef="Sequence_5">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <If Condition="[vendor = &quot;Pega&quot;]" sap:VirtualizedContainerService.HintSize="797,1303" sap2010:WorkflowViewState.IdRef="If_1">
+            <If.Then>
+              <Sequence sap:VirtualizedContainerService.HintSize="376,1156" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="x:String" Name="pegaItem" />
+                  <Variable x:TypeArguments="x:String" Name="pegaType" />
+                  <Variable x:TypeArguments="x:String" Name="str1Q" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" sap2010:Annotation.AnnotationText="for pega save variable for writing to shopping list&#xA;" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,280" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Label="What type of item would you like to buy?" Title="Select a category">
+                  <ui:InputDialog.Result>
+                    <OutArgument x:TypeArguments="x:String">[pegaType]</OutArgument>
+                  </ui:InputDialog.Result>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:InputDialog>
+                <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,238" sap2010:WorkflowViewState.IdRef="InputDialog_6" IsPassword="False" Label="What item would you want to buy?" Title="Select an item">
+                  <ui:InputDialog.Result>
+                    <OutArgument x:TypeArguments="x:String">[pegaItem]</OutArgument>
+                  </ui:InputDialog.Result>
+                </ui:InputDialog>
+                <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,238" sap2010:WorkflowViewState.IdRef="InputDialog_4" IsPassword="False" Label="How many would you like?" Title="Amount">
+                  <ui:InputDialog.Result>
+                    <OutArgument x:TypeArguments="x:Int32">[quantity]</OutArgument>
+                  </ui:InputDialog.Result>
+                </ui:InputDialog>
+                <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[str1Q]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[quantity.ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Non Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_2" Sql="[&quot;insert into shoppingList(quantity, productName, productType, vendorName) values (&quot;+str1Q+&quot;, &quot;+pegaItem+&quot;, &quot;+pegaType+&quot;, 'Pega')&quot;]">
+                  <ui:ExecuteNonQuery.Parameters>
+                    <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                  </ui:ExecuteNonQuery.Parameters>
+                </ui:ExecuteNonQuery>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence sap:VirtualizedContainerService.HintSize="376,836" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="x:String" Name="strQuantity" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,238" sap2010:WorkflowViewState.IdRef="InputDialog_3" IsPassword="False" Label="What item would you want to buy?" Title="Select an item">
+                  <ui:InputDialog.Result>
+                    <OutArgument x:TypeArguments="x:String">[gepaItem]</OutArgument>
+                  </ui:InputDialog.Result>
+                </ui:InputDialog>
+                <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog" sap:VirtualizedContainerService.HintSize="334,238" sap2010:WorkflowViewState.IdRef="InputDialog_8" IsPassword="False" Label="How many would you like?" Title="Amount">
+                  <ui:InputDialog.Result>
+                    <OutArgument x:TypeArguments="x:Int32">[gepaQuantity]</OutArgument>
+                  </ui:InputDialog.Result>
+                </ui:InputDialog>
+                <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[strQuantity]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[gepaQuantity.ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Non Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="334,88" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_1" Sql="[&quot;Insert into shoppingList(quantity, productName, productType, vendorName) values (&quot;+strQuantity+&quot;, &quot;+gepaItem+&quot;, 'Food', 'Gepa');&quot;]">
+                  <ui:ExecuteNonQuery.Parameters>
+                    <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                  </ui:ExecuteNonQuery.Parameters>
+                </ui:ExecuteNonQuery>
+              </Sequence>
+            </If.Else>
+          </If>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" DataTable="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="If Adding it doesnt work ill just add it in right here" CommandType="Text" DisplayName="Execute clientDB Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="875,119" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="insert into client(clientName, clientEmail) values ('exam example', 'exam@example.com')">
+      <ui:ExecuteQuery.Parameters>
+        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+      </ui:ExecuteQuery.Parameters>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:ExecuteQuery>
+    <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DisplayName="Execute Non Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="875,88" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_3" Sql="insert into shoppingList(quantity, productName, productType, vendorName, clientID) values ('3','Cereal','Food','Gepa', '2')">
+      <ui:ExecuteNonQuery.Parameters>
+        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+      </ui:ExecuteNonQuery.Parameters>
+    </ui:ExecuteNonQuery>
   </Sequence>
 </Activity>

@@ -1,6 +1,6 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="RecordExpense" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="560,1641" sap2010:WorkflowViewState.IdRef="RecordExpense_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="RecordExpense" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="741,2311" sap2010:WorkflowViewState.IdRef="RecordExpense_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="58">
+    <scg:List x:TypeArguments="x:String" Capacity="31">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -56,14 +56,13 @@
       <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="work with updating database shoppingList" DisplayName="RecordExpense" sap:VirtualizedContainerService.HintSize="570,1536" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="work with updating database shoppingList" DisplayName="RecordExpense" sap:VirtualizedContainerService.HintSize="510,2206" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="ui:DatabaseConnection" Name="postGreDB" />
       <Variable x:TypeArguments="sd:DataTable" Name="ordersDataTable" />
-      <Variable x:TypeArguments="x:Int32" Name="expenseTotal" />
-      <Variable x:TypeArguments="x:Int32" Name="subTotal" />
-      <Variable x:TypeArguments="sd:DataTable" Name="clientDT" />
-      <Variable x:TypeArguments="sd:DataTable" Name="ordersWclient" />
+      <Variable x:TypeArguments="sd:DataTable" Name="infoDT" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_output" />
+      <Variable x:TypeArguments="sd:DataTable" Name="expenseDT" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -71,14 +70,14 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:DatabaseConnect sap2010:Annotation.AnnotationText="connection to database" DatabaseConnection="[postGreDB]" DisplayName="Connect" sap:VirtualizedContainerService.HintSize="528,90" sap2010:WorkflowViewState.IdRef="DatabaseConnect_1" ProviderName="System.Data.Odbc" ConnectionString="Dsn=PostgreSQL;uid=norywvpo;pwd=E4rTmsuaBfFcHCKZEOybBnv642GG_Ntr">
+    <ui:DatabaseConnect sap2010:Annotation.AnnotationText="connection to database" DatabaseConnection="[postGreDB]" DisplayName="Connect" sap:VirtualizedContainerService.HintSize="468,90" sap2010:WorkflowViewState.IdRef="DatabaseConnect_1" ProviderName="System.Data.Odbc" ConnectionString="Dsn=PostgreSQL;uid=norywvpo;pwd=E4rTmsuaBfFcHCKZEOybBnv642GG_Ntr">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:DatabaseConnect>
-    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="we get the clientID and the total in ints to add to expense sheet by client id" CommandType="Text" DataTable="[ordersDataTable]" DisplayName="Execute Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="528,130" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="select * from orders">
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="clientID and the sum of the total are added to dt" CommandType="Text" DataTable="[ordersDataTable]" DisplayName="Execute Orders Sum Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="468,119" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="select sum(orders.total), orders.clientID&#xD;&#xA;from orders&#xD;&#xA;group by orders.clientID">
       <ui:ExecuteQuery.Parameters>
         <scg:Dictionary x:TypeArguments="x:String, Argument" />
       </ui:ExecuteQuery.Parameters>
@@ -88,12 +87,17 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:ExecuteQuery>
-    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" CommandType="Text" DataTable="[clientDT]" DisplayName="Execute Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="528,88" sap2010:WorkflowViewState.IdRef="ExecuteQuery_2" Sql="select * from client">
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="also has the client id" CommandType="Text" DataTable="[infoDT]" DisplayName="Execute info Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="468,119" sap2010:WorkflowViewState.IdRef="ExecuteQuery_3" Sql="select client.clientID, client.clientName, client.clientEmail, shoppingList.productName, shoppingList.quantity, shoppingList.itemID, orders.orderID&#xD;&#xA;from client&#xD;&#xA;inner join shoppingList on shoppingList.clientID = client.clientID&#xD;&#xA;inner join orders on orders.clientID = client.clientID&#xD;&#xA;order by client.clientID asc;">
       <ui:ExecuteQuery.Parameters>
         <scg:Dictionary x:TypeArguments="x:String, Argument" />
       </ui:ExecuteQuery.Parameters>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
     </ui:ExecuteQuery>
-    <ui:JoinDataTables sap2010:Annotation.AnnotationText="ordersWshoppingList&#xD;&#xA;" DataTable1="[ordersDataTable]" DataTable2="[clientDT]" DisplayName="Join Data Tables" sap:VirtualizedContainerService.HintSize="528,101" sap2010:WorkflowViewState.IdRef="JoinDataTables_1" JoinType="Inner" OutputDataTable="[ordersWclient]">
+    <ui:JoinDataTables DataTable1="[ordersDataTable]" DataTable2="[infoDT]" DisplayName="Join Data Tables" sap:VirtualizedContainerService.HintSize="468,59" sap2010:WorkflowViewState.IdRef="JoinDataTables_2" JoinType="Inner" OutputDataTable="[expenseDT]">
       <ui:JoinDataTables.Arguments>
         <scg:List x:TypeArguments="ui:JoinOperationArgument" Capacity="4">
           <ui:JoinOperationArgument Operand="{x:Null}" BooleanOperator="And" Operator="EQ">
@@ -106,77 +110,129 @@
           </ui:JoinOperationArgument>
         </scg:List>
       </ui:JoinDataTables.Arguments>
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
     </ui:JoinDataTables>
-    <Assign sap2010:Annotation.AnnotationText="Price for each individual item" sap:VirtualizedContainerService.HintSize="528,91" sap2010:WorkflowViewState.IdRef="Assign_2">
-      <Assign.To>
-        <OutArgument x:TypeArguments="x:Int32">[subTotal]</OutArgument>
-      </Assign.To>
-      <Assign.Value>
-        <InArgument x:TypeArguments="x:Int32">0</InArgument>
-      </Assign.Value>
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
-    </Assign>
-    <ui:ForEachRow CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="for each row in data tabel&#xD;&#xA;" DataTable="[ordersWclient]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="528,713" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+    <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[expenseDT]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="468,1536" sap2010:WorkflowViewState.IdRef="ForEachRow_4">
       <ui:ForEachRow.Body>
         <ActivityAction x:TypeArguments="sd:DataRow">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="478,523" sap2010:WorkflowViewState.IdRef="Sequence_2">
-            <Sequence.Variables>
-              <Variable x:TypeArguments="x:String" Name="totalExpense" />
-              <Variable x:TypeArguments="x:Int32" Name="tempTotal" />
-            </Sequence.Variables>
+          <Sequence sap:VirtualizedContainerService.HintSize="418,1388" sap2010:WorkflowViewState.IdRef="Sequence_7">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <Assign sap:VirtualizedContainerService.HintSize="436,60" sap2010:WorkflowViewState.IdRef="Assign_1">
-              <Assign.To>
-                <OutArgument x:TypeArguments="x:Int32">[expenseTotal]</OutArgument>
-              </Assign.To>
-              <Assign.Value>
-                <InArgument x:TypeArguments="x:Int32">0</InArgument>
-              </Assign.Value>
-            </Assign>
-            <Assign sap:VirtualizedContainerService.HintSize="436,60" sap2010:WorkflowViewState.IdRef="Assign_4">
-              <Assign.To>
-                <OutArgument x:TypeArguments="x:Int32">[expenseTotal]</OutArgument>
-              </Assign.To>
-              <Assign.Value>
-                <InArgument x:TypeArguments="x:Int32">[Convert.ToInt32(row("total"))]</InArgument>
-              </Assign.Value>
-            </Assign>
-            <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="436,231" sap2010:WorkflowViewState.IdRef="CommentOut_1">
-              <ui:CommentOut.Body>
-                <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="272,153" sap2010:WorkflowViewState.IdRef="Sequence_4">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="[row(&quot;clientName&quot;).ToString]" />
-                </Sequence>
-              </ui:CommentOut.Body>
-            </ui:CommentOut>
+            <Sequence sap2010:Annotation.AnnotationText="set the info to variables and add to expenseSheetDB" DisplayName="Body" sap:VirtualizedContainerService.HintSize="376,1296" sap2010:WorkflowViewState.IdRef="Sequence_6">
+              <Sequence.Variables>
+                <Variable x:TypeArguments="x:String" Name="strTotal" />
+                <Variable x:TypeArguments="x:String" Name="strItem" />
+                <Variable x:TypeArguments="x:String" Name="strAmount" />
+                <Variable x:TypeArguments="x:String" Name="strEmail" />
+                <Variable x:TypeArguments="x:String" Name="intTotal" />
+                <Variable x:TypeArguments="x:String" Name="clientNum" />
+                <Variable x:TypeArguments="x:String" Name="clientName" />
+                <Variable x:TypeArguments="x:String" Name="itemID" />
+                <Variable x:TypeArguments="x:String" Name="orderID" />
+              </Sequence.Variables>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_9">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[orderID]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[row("orderID").ToString]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[itemID]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[row("itemID").ToString]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[clientName]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[row("clientName").ToString]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign sap2010:Annotation.AnnotationText="this is a string, but the value in table is an integer" sap:VirtualizedContainerService.HintSize="334,102" sap2010:WorkflowViewState.IdRef="Assign_8">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[clientNum]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[row("clientID").tostring]</InArgument>
+                </Assign.Value>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Assign>
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[strTotal]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[row("sum").ToString]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[intTotal]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[(Convert.ToInt32(strTotal)).ToString]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[strItem]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[row("productName").ToString]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[strAmount]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[row("quantity").ToString]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[strEmail]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">[row("clientEmail").ToString]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="[strAmount+&quot; &quot;+strTotal+&quot; &quot;+strItem+&quot; &quot;+strEmail]" />
+              <ui:ExecuteNonQuery AffectedRecords="{x:Null}" ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="Double and single quotes around strings, double quotes around numbers" CommandType="Text" DisplayName="Execute Non Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="334,130" sap2010:WorkflowViewState.IdRef="ExecuteNonQuery_1" Sql="[&quot;insert into expenseSheet(nameClient, totalExpense, itemID, orderID, clientID, item, amount, email) values ('&quot;+clientName+&quot;', &quot;+intTotal+&quot;, &quot;+itemID+&quot;, &quot;+orderID+&quot;, &quot;+clientNum+&quot;, '&quot;+strItem+&quot;', &quot;+strAmount+&quot;, '&quot;+strEmail+&quot;')&quot;]">
+                <ui:ExecuteNonQuery.Parameters>
+                  <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                </ui:ExecuteNonQuery.Parameters>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:ExecuteNonQuery>
+            </Sequence>
           </Sequence>
         </ActivityAction>
       </ui:ForEachRow.Body>
-      <sap:WorkflowViewStateService.ViewState>
-        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-        </scg:Dictionary>
-      </sap:WorkflowViewStateService.ViewState>
     </ui:ForEachRow>
   </Sequence>
 </Activity>
