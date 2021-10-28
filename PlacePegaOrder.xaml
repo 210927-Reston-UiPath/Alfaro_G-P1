@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="PlacePegaOrder" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="993,10444" sap2010:WorkflowViewState.IdRef="PlacePegaOrder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="PlacePegaOrder" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1258,10608" sap2010:WorkflowViewState.IdRef="PlacePegaOrder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="37">
       <x:String>System.Activities</x:String>
@@ -78,7 +78,7 @@
       <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Places order in Pega&#xA;" DisplayName="PlacePegaOrder" sap:VirtualizedContainerService.HintSize="1003,10379" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Places order in Pega&#xA;" DisplayName="PlacePegaOrder" sap:VirtualizedContainerService.HintSize="1003,10503" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="sd:DataTable" Name="in_dt_pega" />
       <Variable x:TypeArguments="x:Int32" Name="counter" />
@@ -130,13 +130,13 @@
         </ActivityAction>
       </ui:ForEachRow.Body>
     </ui:ForEachRow>
-    <ui:ForEachRow CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="imported data table from pega side, has product type as well for Pega" DataTable="[in_dt_pega]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="961,9652" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+    <ui:ForEachRow CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="imported data table from pega side, has product type as well for Pega" DataTable="[in_dt_pega]" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="961,9714" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
       <ui:ForEachRow.Body>
         <ActivityAction x:TypeArguments="sd:DataRow">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
           </ActivityAction.Argument>
-          <Sequence sap2010:Annotation.AnnotationText="Pega Data Table has clientName, clientEmail, productType, productName and quantity and vendorName, but we dont need vendorName anymore&#xA;" DisplayName="Body" sap:VirtualizedContainerService.HintSize="911,9473" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <Sequence sap2010:Annotation.AnnotationText="Pega Data Table has clientName, clientEmail, productType, productName and quantity and vendorName, but we dont need vendorName anymore&#xA;" DisplayName="Body" sap:VirtualizedContainerService.HintSize="911,9535" sap2010:WorkflowViewState.IdRef="Sequence_3">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -631,6 +631,7 @@
                 <scg:Dictionary x:TypeArguments="x:String, Argument" />
               </ui:ExecuteNonQuery.Parameters>
             </ui:ExecuteNonQuery>
+            <ui:DatabaseDisconnect DatabaseConnection="[postGreDB]" DisplayName="Disconnect" sap:VirtualizedContainerService.HintSize="869,22" sap2010:WorkflowViewState.IdRef="DatabaseDisconnect_2" />
           </Sequence>
         </ActivityAction>
       </ui:ForEachRow.Body>
@@ -640,5 +641,6 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:ForEachRow>
+    <ui:DatabaseDisconnect DatabaseConnection="[postGreDB]" DisplayName="Disconnect" sap:VirtualizedContainerService.HintSize="961,22" sap2010:WorkflowViewState.IdRef="DatabaseDisconnect_1" />
   </Sequence>
 </Activity>

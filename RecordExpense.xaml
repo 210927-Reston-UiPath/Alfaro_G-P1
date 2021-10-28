@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="RecordExpense" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="741,2311" sap2010:WorkflowViewState.IdRef="RecordExpense_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="RecordExpense" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1258,2373" sap2010:WorkflowViewState.IdRef="RecordExpense_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="31">
       <x:String>System.Activities</x:String>
@@ -56,7 +56,7 @@
       <AssemblyReference>UiPath.Database.Activities</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="work with updating database shoppingList" DisplayName="RecordExpense" sap:VirtualizedContainerService.HintSize="510,2206" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="work with updating database shoppingList" DisplayName="RecordExpense" sap:VirtualizedContainerService.HintSize="510,2268" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="ui:DatabaseConnection" Name="postGreDB" />
       <Variable x:TypeArguments="sd:DataTable" Name="ordersDataTable" />
@@ -77,7 +77,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:DatabaseConnect>
-    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="clientID and the sum of the total are added to dt" CommandType="Text" DataTable="[ordersDataTable]" DisplayName="Execute Orders Sum Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="468,119" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="select sum(orders.total), orders.clientID&#xD;&#xA;from orders&#xD;&#xA;group by orders.clientID">
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="clientID and the sum of the total are added to dt" CommandType="Text" DataTable="[ordersDataTable]" DisplayName="Execute Orders Sum Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="468,119" sap2010:WorkflowViewState.IdRef="ExecuteQuery_1" Sql="select sum(orders.total), orders.clientID&#xA;from orders&#xA;group by orders.clientID">
       <ui:ExecuteQuery.Parameters>
         <scg:Dictionary x:TypeArguments="x:String, Argument" />
       </ui:ExecuteQuery.Parameters>
@@ -87,7 +87,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ui:ExecuteQuery>
-    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="also has the client id" CommandType="Text" DataTable="[infoDT]" DisplayName="Execute info Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="468,119" sap2010:WorkflowViewState.IdRef="ExecuteQuery_3" Sql="select client.clientID, client.clientName, client.clientEmail, shoppingList.productName, shoppingList.quantity, shoppingList.itemID, orders.orderID&#xD;&#xA;from client&#xD;&#xA;inner join shoppingList on shoppingList.clientID = client.clientID&#xD;&#xA;inner join orders on orders.clientID = client.clientID&#xD;&#xA;order by client.clientID asc;">
+    <ui:ExecuteQuery ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="also has the client id" CommandType="Text" DataTable="[infoDT]" DisplayName="Execute info Query" ExistingDbConnection="[postGreDB]" sap:VirtualizedContainerService.HintSize="468,119" sap2010:WorkflowViewState.IdRef="ExecuteQuery_3" Sql="select client.clientID, client.clientName, client.clientEmail, shoppingList.productName, shoppingList.quantity, shoppingList.itemID, orders.orderID&#xA;from client&#xA;inner join shoppingList on shoppingList.clientID = client.clientID&#xA;inner join orders on orders.clientID = client.clientID&#xA;order by client.clientID asc;">
       <ui:ExecuteQuery.Parameters>
         <scg:Dictionary x:TypeArguments="x:String, Argument" />
       </ui:ExecuteQuery.Parameters>
@@ -234,5 +234,6 @@
         </ActivityAction>
       </ui:ForEachRow.Body>
     </ui:ForEachRow>
+    <ui:DatabaseDisconnect DatabaseConnection="[postGreDB]" DisplayName="Disconnect" sap:VirtualizedContainerService.HintSize="468,22" sap2010:WorkflowViewState.IdRef="DatabaseDisconnect_1" />
   </Sequence>
 </Activity>
