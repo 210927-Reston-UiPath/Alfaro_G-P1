@@ -3,6 +3,27 @@
 # P1
 # Robotic Shopping Assistant 2.0
 
+# Tech Stack
+- UiPath Studio
+- HTML
+- CSS
+- Javascript
+- PostGreSQL
+
+# Features
+- Automation will add client to database to be stored and later read to process transaction.
+- Automation will shop at the correct store and scrape the price, item and quantity.
+- Automation will then calculate the total price of the shopping trip and insert it into SQL database.
+To-Do List:
+- Implement pdf and email automation for each clients order.
+- Clean up code for quicker runtime.
+
+# Getting Started
+- Copy the path of the github repository.
+- Use git clone "github path" in git bash.
+- Open project in UiPath.
+- Run project in Main xaml file.
+
 # MVP Functionalities
 - [x] Robot should be able to take client shopping lists and place orders on the appropriate vendors.
 - [x] Robot should record the total expense of each shopping trip for each client.
@@ -18,3 +39,4 @@
 - [x] Expense Reports should be stored in a DB
 - [x] Automations should have exception handling enabled
 - [ ] DB tables should be 3NF
+
