@@ -14,7 +14,8 @@
 - Automation will add client to database to be stored and later read to process transaction.
 - Automation will shop at the correct store and scrape the price, item and quantity.
 - Automation will then calculate the total price of the shopping trip and insert it into SQL database.
-To-Do List:
+
+  To-Do List:
 - Implement pdf and email automation for each clients order.
 - Clean up code for quicker runtime.
 
